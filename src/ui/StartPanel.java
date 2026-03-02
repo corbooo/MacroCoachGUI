@@ -6,6 +6,7 @@ import java.awt.*;
 public class StartPanel extends JPanel {
     
     private static final Color BG = new Color(30, 30, 30);
+    private static final Color GRAY_ACCENT = new Color(50, 50, 50);
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
 
@@ -13,21 +14,55 @@ public class StartPanel extends JPanel {
         setBackground(BG);
         setLayout(new BorderLayout());
 
-        // Center content panel
+        // - Center content panel (consisting of title and username search bar) -
         JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(new Color(50, 50, 50));
+        centerPanel.setBackground(BG);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("MacroCoachGUI");
+        // title
+        JLabel title = new JLabel("MacroCoach");
         title.setForeground(ACCENT);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 42f));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // username search bar
+        JTextField usernameField = new JTextField();
+        usernameField.setColumns(18);
+        usernameField.setBackground(GRAY_ACCENT);
+        usernameField.setForeground(TEXT);
+        JButton goButton = new JButton("Go");
+        goButton.setBackground(ACCENT);
+        goButton.setForeground(Color.BLACK);
+        
+        Runnable submit = () -> {
+            String username = usernameField.getText().trim();
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a username.");
+                return;
+            }
+
+            // TODO: navigate to user dashboard
+            JOptionPane.showMessageDialog(this, "Username submitted: " + username);
+        };
+        goButton.addActionListener(e -> submit.run());
+        usernameField.addActionListener(e -> submit.run());
+
+        JPanel searchRow = new JPanel(new BorderLayout(5, 0));
+        searchRow.setOpaque(false);
+        searchRow.setBackground(new Color(100,100,100));
+        searchRow.add(usernameField, BorderLayout.CENTER);
+        searchRow.add(goButton, BorderLayout.EAST);
+        searchRow.setMaximumSize(new Dimension(420,35));
+        
+
         centerPanel.add(Box.createVerticalGlue());
         centerPanel.add(title);
-        centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        // centerPanel.add(Box.createVerticalGlue());
+        centerPanel.add(Box.createVerticalStrut(18));
+        centerPanel.add(searchRow);
+        centerPanel.add(Box.createVerticalGlue());
 
         add(centerPanel, BorderLayout.CENTER);
+
+    
     }
 }

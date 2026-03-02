@@ -1,15 +1,13 @@
 package ui;
 
-import ui.StartPanel;
 import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 public class AppFrame extends JFrame {
 
     public AppFrame() {
-        super("MacroCoachGUI");
+        super("MacroCoach");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
