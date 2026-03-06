@@ -5,12 +5,17 @@ import java.awt.*;
 
 public class StartPanel extends JPanel {
     
+
     private static final Color BG = new Color(30, 30, 30);
     private static final Color GRAY_ACCENT = new Color(50, 50, 50);
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
+    
+    private final Navigator navigator;
 
-    public StartPanel() {
+    public StartPanel(Navigator navigator) {
+        this.navigator = navigator;
+
         setBackground(BG);
         setLayout(new BorderLayout());
 
@@ -40,9 +45,7 @@ public class StartPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter a username.");
                 return;
             }
-
-            // TODO: navigate to user dashboard
-            JOptionPane.showMessageDialog(this, "Username submitted: " + username);
+            navigator.showDashboard(username);
         };
         goButton.addActionListener(e -> submit.run());
         usernameField.addActionListener(e -> submit.run());
@@ -62,7 +65,6 @@ public class StartPanel extends JPanel {
         centerPanel.add(Box.createVerticalGlue());
 
         add(centerPanel, BorderLayout.CENTER);
-
     
     }
 }
