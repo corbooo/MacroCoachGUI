@@ -19,7 +19,6 @@ public class AppFrame extends JFrame implements Navigator {
         setLocationRelativeTo(null);
     }
 
-    @Override
     public void showStart() {
         getContentPane().removeAll();
         add(new StartPanel(this), BorderLayout.CENTER);
@@ -27,10 +26,9 @@ public class AppFrame extends JFrame implements Navigator {
         repaint();
     }
 
-    @Override
     public void showDashboard(String username) {
         getContentPane().removeAll();
-        add(new DashboardPanel(username), BorderLayout.CENTER);
+        add(new DashboardPanel(username, this), BorderLayout.CENTER);
         revalidate();
         repaint();
     }

@@ -11,15 +11,12 @@ public class StartPanel extends JPanel {
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
     
-    private final Navigator navigator;
 
     public StartPanel(Navigator navigator) {
-        this.navigator = navigator;
-
         setBackground(BG);
         setLayout(new BorderLayout());
 
-        // - Center content panel (consisting of title and username search bar) -
+        // - Center content panel -
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(BG);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
@@ -52,7 +49,6 @@ public class StartPanel extends JPanel {
 
         JPanel searchRow = new JPanel(new BorderLayout(5, 0));
         searchRow.setOpaque(false);
-        searchRow.setBackground(new Color(100,100,100));
         searchRow.add(usernameField, BorderLayout.CENTER);
         searchRow.add(goButton, BorderLayout.EAST);
         searchRow.setMaximumSize(new Dimension(420,35));
