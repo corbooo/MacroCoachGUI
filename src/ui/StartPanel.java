@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StartPanel extends JPanel {
-    
 
     private static final Color BG = new Color(30, 30, 30);
     private static final Color GRAY_ACCENT = new Color(50, 50, 50);
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
-    
 
     public StartPanel(Navigator navigator) {
         setBackground(BG);
@@ -24,7 +22,7 @@ public class StartPanel extends JPanel {
         // title
         JLabel title = new JLabel("MacroCoach");
         title.setForeground(ACCENT);
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 42f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 64f));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // username search bar
@@ -32,9 +30,9 @@ public class StartPanel extends JPanel {
         usernameField.setColumns(18);
         usernameField.setBackground(GRAY_ACCENT);
         usernameField.setForeground(TEXT);
-        JButton goButton = new JButton("Go");
+        JButton goButton = new JButton("GO");
         goButton.setBackground(ACCENT);
-        goButton.setForeground(Color.BLACK);
+        goButton.setForeground(TEXT);
         
         Runnable submit = () -> {
             String username = usernameField.getText().trim();

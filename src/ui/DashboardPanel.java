@@ -1,8 +1,6 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
 
 public class DashboardPanel extends JPanel {
@@ -22,9 +20,9 @@ public class DashboardPanel extends JPanel {
         topBar.setBackground(BG);
         topBar.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         
-        JButton button = new JButton("Back");
+        JButton button = new JButton("BACK");
         button.setBackground(ACCENT);
-        button.setForeground(Color.BLACK);
+        button.setForeground(TEXT);
         button.addActionListener(e -> navigator.showStart());
         
         JLabel titleLabel = new JLabel("MacroCoach Dashboard");
