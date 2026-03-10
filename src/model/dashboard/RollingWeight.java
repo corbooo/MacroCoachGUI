@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class RollingWeight {
     public String entries;

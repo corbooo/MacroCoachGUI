@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class Rolling {
     public String window_days;

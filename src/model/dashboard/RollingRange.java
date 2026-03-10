@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class RollingRange {
     public String start;

@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class RollingMacros {
     public String days_logged;

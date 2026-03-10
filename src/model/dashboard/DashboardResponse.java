@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

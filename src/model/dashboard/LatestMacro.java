@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class LatestMacro {
     public String day;

@@ -1,4 +1,8 @@
-package ui;
+package ui.dashboard;
+
+import api.MacroCoachClient;
+import model.dashboard.DashboardResponse;
+import ui.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +19,21 @@ public class DashboardPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
+        // fetch dashboard data
+        DashboardResponse data;
+        try {
+            data = MacroCoachClient.getDashboard(username);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Could not load dashboard for username: " + username,
+                "Dashboard Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        
         // - Top Name Bar - 
         JPanel topBar = new JPanel(new BorderLayout(20,0));
         topBar.setBackground(BG);
@@ -38,29 +57,35 @@ public class DashboardPanel extends JPanel {
         topBar.add(button, BorderLayout.WEST);
         topBar.add(titleLabel, BorderLayout.CENTER);
         topBar.add(userLabel, BorderLayout.EAST);
+
+        // - Dashboard Cards -
+        JPanel cardsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
+        cardsPanel.setBackground(BG);
+
+        cardsPanel.add(new TargetMacrosPanel(data.target));
+        cardsPanel.add(makePlaceholderCard("Latest Logged Macros"));
+        cardsPanel.add(makePlaceholderCard("Rolling Weekly Average"));
+        cardsPanel.add(makePlaceholderCard("Weight Trend"));
+
         
-        // - Center content panel -
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(LIGHTER_BG);
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
-
-        JLabel welcomeLabel = new JLabel("Welcome, " + username);
-        welcomeLabel.setForeground(TEXT);
-        welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(Font.BOLD, 32f));
-        welcomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JLabel placeholderLabel = new JLabel("Macro data will appear here.");
-        placeholderLabel.setForeground(TEXT);
-        placeholderLabel.setFont(placeholderLabel.getFont().deriveFont(18f));
-        placeholderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        contentPanel.add(welcomeLabel);
-        contentPanel.add(Box.createVerticalStrut(15));
-        contentPanel.add(placeholderLabel);
-        
-
         add(topBar, BorderLayout.NORTH);
-        add(contentPanel, BorderLayout.CENTER);
+        add(cardsPanel, BorderLayout.CENTER);
+        
+    }
+    private JPanel makePlaceholderCard(String title) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(LIGHTER_BG);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(ACCENT, 1),
+                BorderFactory.createEmptyBorder(15, 15, 15, 15)
+        ));
+
+        JLabel label = new JLabel(title);
+        label.setForeground(ACCENT);
+        label.setFont(label.getFont().deriveFont(Font.BOLD, 18f));
+
+        panel.add(label, BorderLayout.NORTH);
+
+        return panel;
     }
 }

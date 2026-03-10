@@ -2,6 +2,8 @@ package ui;
 
 import javax.swing.*;
 
+import ui.dashboard.DashboardPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 

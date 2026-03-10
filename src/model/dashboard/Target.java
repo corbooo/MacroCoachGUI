@@ -1,4 +1,4 @@
-package model;
+package model.dashboard;
 
 public class Target {
     public String calories_target;
