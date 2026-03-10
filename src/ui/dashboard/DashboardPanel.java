@@ -2,6 +2,7 @@ package ui.dashboard;
 
 import api.MacroCoachClient;
 import model.dashboard.DashboardResponse;
+import model.dashboard.LatestMacro;
 import ui.Navigator;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ import java.awt.*;
 public class DashboardPanel extends JPanel {
 
     private static final Color BG = new Color(30, 30, 30);
-    private static final Color LIGHTER_BG = new Color(33, 33, 33);
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
 
@@ -63,29 +63,13 @@ public class DashboardPanel extends JPanel {
         cardsPanel.setBackground(BG);
 
         cardsPanel.add(new TargetMacrosPanel(data.target));
-        cardsPanel.add(makePlaceholderCard("Latest Logged Macros"));
-        cardsPanel.add(makePlaceholderCard("Rolling Weekly Average"));
-        cardsPanel.add(makePlaceholderCard("Weight Trend"));
+        cardsPanel.add(new LatestLoggedPanel(data.latest_macro));
+        cardsPanel.add(new WeeklyAveragePanel(data.rolling));
+        cardsPanel.add(new WeightProgressPanel(data.rolling));
 
         
         add(topBar, BorderLayout.NORTH);
         add(cardsPanel, BorderLayout.CENTER);
         
-    }
-    private JPanel makePlaceholderCard(String title) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(LIGHTER_BG);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ACCENT, 1),
-                BorderFactory.createEmptyBorder(15, 15, 15, 15)
-        ));
-
-        JLabel label = new JLabel(title);
-        label.setForeground(ACCENT);
-        label.setFont(label.getFont().deriveFont(Font.BOLD, 18f));
-
-        panel.add(label, BorderLayout.NORTH);
-
-        return panel;
     }
 }
