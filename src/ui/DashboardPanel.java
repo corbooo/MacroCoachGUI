@@ -39,7 +39,6 @@ public class DashboardPanel extends JPanel {
         topBar.add(titleLabel, BorderLayout.CENTER);
         topBar.add(userLabel, BorderLayout.EAST);
         
-
         // - Center content panel -
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(LIGHTER_BG);
