@@ -2,7 +2,6 @@ package ui.dashboard;
 
 import api.MacroCoachClient;
 import model.dashboard.DashboardResponse;
-import model.dashboard.LatestMacro;
 import ui.Navigator;
 
 import javax.swing.*;
