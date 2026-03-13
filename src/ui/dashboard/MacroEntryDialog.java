@@ -1,5 +1,9 @@
 package ui.dashboard;
 
+import api.MacroCoachClient;
+import model.macros.MacroEntryRequest;
+import model.macros.MacroUpsertResponse;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -12,8 +16,11 @@ public class MacroEntryDialog extends JDialog {
     private JTextField carbsField;
     private JTextField fatField;
 
-    public MacroEntryDialog(String username) {
-        
+    private final Runnable onSuccess;
+
+    public MacroEntryDialog(String username, Runnable onSuccess) {
+        this.onSuccess = onSuccess;
+
         setTitle("Add Macro Entry");
         setSize(400,300);
         setLocationRelativeTo(null);
@@ -46,6 +53,7 @@ public class MacroEntryDialog extends JDialog {
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
 
+        saveButton.addActionListener(e -> handleSave(username));
         cancelButton.addActionListener(e -> dispose());
 
         buttonPanel.add(saveButton);
@@ -65,5 +73,42 @@ public class MacroEntryDialog extends JDialog {
         gbc.gridx = 1;
         gbc.weightx = 1;
         panel.add(field, gbc);
+    }
+
+    private void handleSave(String username) {
+        String day = dayField.getText().trim();
+        String caloriesText = caloriesField.getText().trim();
+        String proteinText = proteinField.getText().trim();
+        String carbsText = carbsField.getText().trim();
+        String fatText = fatField.getText().trim();
+
+        if (day.isEmpty() || caloriesText.isEmpty() || proteinText.isEmpty() || carbsText.isEmpty() || fatText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Missing Information", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int calories = Integer.parseInt(caloriesText);
+            double protein = Double.parseDouble(proteinText);
+            double carbs = Double.parseDouble(carbsText);
+            double fat = Double.parseDouble(fatText);
+
+            MacroEntryRequest entry = new MacroEntryRequest();
+            entry.day = day;
+            entry.calories = calories;
+            entry.protein_g = protein;
+            entry.carbs_g = carbs;
+            entry.fat_g = fat;
+
+            MacroUpsertResponse result = MacroCoachClient.upsertMacros(username, entry);
+            
+            JOptionPane.showMessageDialog(this, "Macro entry " + result.action + " sucessfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            onSuccess.run();
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Calories must be a whole number, and protein/carbs/fat must be valid numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Failed to save macro entry.", "Save Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

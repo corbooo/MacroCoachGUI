@@ -13,11 +13,21 @@ public class DashboardPanel extends JPanel {
     private static final Color ACCENT = new Color(0, 255, 255);
     private static final Color TEXT = Color.WHITE;
 
+    private final String username;
+    private final Navigator navigator;
+
     public DashboardPanel(String username, Navigator navigator) {
+        this.username = username;
+        this.navigator = navigator;
+
         setBackground(BG);
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
+        buildDashboard();
+    }
+
+    private void buildDashboard() {
         // fetch dashboard data
         DashboardResponse data;
         try {
@@ -31,7 +41,6 @@ public class DashboardPanel extends JPanel {
             );
             return;
         }
-
         
         // - Top Name Bar - 
         JPanel topBar = new JPanel(new BorderLayout(20,0));
@@ -75,7 +84,7 @@ public class DashboardPanel extends JPanel {
         macroEntryButton.setBackground(ACCENT);
         macroEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
         macroEntryButton.addActionListener(e -> {
-            MacroEntryDialog dialog = new MacroEntryDialog(username);
+            MacroEntryDialog dialog = new MacroEntryDialog(username, this::refreshDashboard);
             dialog.setVisible(true);
         });
 
@@ -85,6 +94,12 @@ public class DashboardPanel extends JPanel {
         add(topBar, BorderLayout.NORTH);
         add(cardsPanel, BorderLayout.CENTER);
         add(bottomButtons, BorderLayout.SOUTH);
-        
+    }
+
+    private void refreshDashboard() {
+        removeAll();
+        buildDashboard();
+        revalidate();
+        repaint();
     }
 }
