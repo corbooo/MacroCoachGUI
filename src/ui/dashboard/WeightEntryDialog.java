@@ -16,9 +16,9 @@ public class WeightEntryDialog extends JDialog {
     private final Runnable onSuccess;
     
     public WeightEntryDialog(String username, Runnable onSuccess) {
+        super((Frame) null, "Add Weight Entry", Dialog.ModalityType.APPLICATION_MODAL);
         this.onSuccess = onSuccess;
 
-        setTitle("Add Weight Entry");
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());

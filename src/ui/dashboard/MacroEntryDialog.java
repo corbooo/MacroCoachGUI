@@ -19,9 +19,9 @@ public class MacroEntryDialog extends JDialog {
     private final Runnable onSuccess;
 
     public MacroEntryDialog(String username, Runnable onSuccess) {
+        super((Frame) null, "Add Macro Entry", Dialog.ModalityType.APPLICATION_MODAL);
         this.onSuccess = onSuccess;
 
-        setTitle("Add Macro Entry");
         setSize(400,300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());

@@ -6,6 +6,8 @@ import ui.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardPanel extends JPanel {
 
@@ -15,6 +17,7 @@ public class DashboardPanel extends JPanel {
 
     private final String username;
     private final Navigator navigator;
+    private JLabel lastUpdatedLabel;
 
     public DashboardPanel(String username, Navigator navigator) {
         this.username = username;
@@ -42,29 +45,57 @@ public class DashboardPanel extends JPanel {
             return;
         }
         
+        String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
+
         // - Top Name Bar - 
         JPanel topBar = new JPanel(new BorderLayout(20,0));
         topBar.setBackground(BG);
         topBar.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         
-        JButton button = new JButton("BACK");
-        button.setBackground(ACCENT);
-        button.setForeground(TEXT);
-        button.addActionListener(e -> navigator.showStart());
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(BG);
+
+        JButton backButton = new JButton("BACK");
+        backButton.setBackground(ACCENT);
+        backButton.setForeground(TEXT);
+        backButton.addActionListener(e -> navigator.showStart());
         
+        leftPanel.add(backButton);
+
         JLabel titleLabel = new JLabel("MacroCoach Dashboard");
         titleLabel.setForeground(ACCENT);
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 40f));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBackground(BG);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
         JLabel userLabel = new JLabel("User: " + username);
         userLabel.setForeground(TEXT);
         userLabel.setFont(userLabel.getFont().deriveFont(30f));
-        userLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        userLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        lastUpdatedLabel = new JLabel("Last Updated: " + currentTime);
+        lastUpdatedLabel.setForeground(TEXT);
+        lastUpdatedLabel.setFont(lastUpdatedLabel.getFont().deriveFont(16f));
+        lastUpdatedLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.setBackground(ACCENT);
+        refreshButton.setForeground(TEXT);
+        refreshButton.addActionListener(e -> refreshDashboard());
+        refreshButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        rightPanel.add(userLabel);
+        rightPanel.add(Box.createVerticalStrut(5));
+        rightPanel.add(lastUpdatedLabel);
+        rightPanel.add(Box.createVerticalStrut(8));
+        rightPanel.add(refreshButton);
         
-        topBar.add(button, BorderLayout.WEST);
+        topBar.add(leftPanel, BorderLayout.WEST);
         topBar.add(titleLabel, BorderLayout.CENTER);
-        topBar.add(userLabel, BorderLayout.EAST);
+        topBar.add(rightPanel, BorderLayout.EAST);
 
         // - Dashboard Cards -
         JPanel cardsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
@@ -75,10 +106,29 @@ public class DashboardPanel extends JPanel {
         cardsPanel.add(new WeeklyAveragePanel(data.rolling));
         cardsPanel.add(new WeightProgressPanel(data.rolling));
 
-        // - Bottom Button Bar -
-        JPanel bottomButtons = new JPanel(new GridLayout(1, 2, 20, 0));
-        bottomButtons.setBackground(BG);
-        bottomButtons.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        // - Bottom Button Section -
+        JPanel bottomSection = new JPanel(new GridLayout(2, 1, 20, 10));
+        bottomSection.setBackground(BG);
+        bottomSection.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // top button row
+        JPanel dataButtonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        dataButtonsRow.setBackground(BG);
+
+        // placeholder buttons for now
+        JButton insightsButton = new JButton("Insights");
+        insightsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Insights feature coming soon."));
+        JButton chartsButton = new JButton("Charts");
+        chartsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Charts feature coming soon."));
+        JButton historyButton = new JButton("History");
+        historyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "History feature coming soon."));
+        dataButtonsRow.add(insightsButton);
+        dataButtonsRow.add(chartsButton);
+        dataButtonsRow.add(historyButton);
+
+        // bottom button row
+        JPanel actionButtonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        actionButtonsRow.setBackground(BG);
 
         JButton macroEntryButton = new JButton("Add Macro");
         macroEntryButton.setBackground(ACCENT);
@@ -88,7 +138,6 @@ public class DashboardPanel extends JPanel {
             MacroEntryDialog dialog = new MacroEntryDialog(username, this::refreshDashboard);
             dialog.setVisible(true);
         });
-
         JButton weightEntryButton = new JButton("Add Weight");
         weightEntryButton.setBackground(ACCENT);
         weightEntryButton.setForeground(TEXT);
@@ -97,14 +146,16 @@ public class DashboardPanel extends JPanel {
             WeightEntryDialog dialog = new WeightEntryDialog(username, this::refreshDashboard);
             dialog.setVisible(true);
         });
+        actionButtonsRow.add(macroEntryButton);
+        actionButtonsRow.add(weightEntryButton);
 
-        bottomButtons.add(macroEntryButton);
-        bottomButtons.add(weightEntryButton);
+        bottomSection.add(dataButtonsRow);
+        bottomSection.add(actionButtonsRow);
 
 
         add(topBar, BorderLayout.NORTH);
         add(cardsPanel, BorderLayout.CENTER);
-        add(bottomButtons, BorderLayout.SOUTH);
+        add(bottomSection, BorderLayout.SOUTH);
     }
 
     private void refreshDashboard() {

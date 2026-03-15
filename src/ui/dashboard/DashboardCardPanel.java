@@ -25,7 +25,7 @@ public class DashboardCardPanel extends JPanel {
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setForeground(ACCENT);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
 
         contentPanel = new JPanel();
         contentPanel.setBackground(CARD_BG);
@@ -38,7 +38,7 @@ public class DashboardCardPanel extends JPanel {
     protected JLabel makeRowLabel(String text) {
         JLabel label = new JLabel(text);
         label.setForeground(TEXT);
-        label.setFont(new Font("SansSerif", Font.PLAIN, 25));
+        label.setFont(new Font("SansSerif", Font.PLAIN, 18));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         return label;
     }
