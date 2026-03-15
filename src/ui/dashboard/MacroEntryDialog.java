@@ -59,7 +59,7 @@ public class MacroEntryDialog extends JDialog {
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
 
-        add(label, BorderLayout.CENTER);
+        add(label, BorderLayout.NORTH);
         add(entryPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -108,7 +108,7 @@ public class MacroEntryDialog extends JDialog {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Calories must be a whole number, and protein/carbs/fat must be valid numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Failed to save macro entry.", "Save Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to save macro entry.", "Save Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

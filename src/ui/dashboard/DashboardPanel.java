@@ -76,19 +76,30 @@ public class DashboardPanel extends JPanel {
         cardsPanel.add(new WeightProgressPanel(data.rolling));
 
         // - Bottom Button Bar -
-        JPanel bottomButtons = new JPanel(new GridLayout(1, 1, 20, 0));
+        JPanel bottomButtons = new JPanel(new GridLayout(1, 2, 20, 0));
         bottomButtons.setBackground(BG);
         bottomButtons.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton macroEntryButton = new JButton("Add Macro");
         macroEntryButton.setBackground(ACCENT);
+        macroEntryButton.setForeground(TEXT);
         macroEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
         macroEntryButton.addActionListener(e -> {
             MacroEntryDialog dialog = new MacroEntryDialog(username, this::refreshDashboard);
             dialog.setVisible(true);
         });
 
+        JButton weightEntryButton = new JButton("Add Weight");
+        weightEntryButton.setBackground(ACCENT);
+        weightEntryButton.setForeground(TEXT);
+        weightEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
+        weightEntryButton.addActionListener(e -> {
+            WeightEntryDialog dialog = new WeightEntryDialog(username, this::refreshDashboard);
+            dialog.setVisible(true);
+        });
+
         bottomButtons.add(macroEntryButton);
+        bottomButtons.add(weightEntryButton);
 
 
         add(topBar, BorderLayout.NORTH);
