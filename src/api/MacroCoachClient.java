@@ -26,8 +26,8 @@ public class MacroCoachClient {
             .build();
         HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() != 200) {
-            throw new IOException("Failed to load dashboard. Status code: " + response.statusCode());
+        if (response.statusCode() == 404) {
+            throw new IOException("Failed to load dashboard. There is no user: " + username);
         }
 
         String json = response.body();

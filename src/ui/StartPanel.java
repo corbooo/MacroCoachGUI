@@ -1,6 +1,9 @@
 package ui;
 
 import javax.swing.*;
+
+import api.MacroCoachClient;
+
 import java.awt.*;
 
 public class StartPanel extends JPanel {
@@ -40,7 +43,14 @@ public class StartPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter a username.");
                 return;
             }
-            navigator.showDashboard(username);
+            
+            try {
+                MacroCoachClient.getDashboard(username);
+                navigator.showDashboard(username);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+
         };
         goButton.addActionListener(e -> submit.run());
         usernameField.addActionListener(e -> submit.run());
