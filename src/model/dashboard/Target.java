@@ -1,8 +1,8 @@
 package model.dashboard;
 
 public class Target {
-    public String calories_target;
-    public String protein_target;
-    public String carbs_target;
-    public String fat_target;
+    public int calories_target;
+    public double protein_target;
+    public double carbs_target;
+    public double fat_target;
 }
