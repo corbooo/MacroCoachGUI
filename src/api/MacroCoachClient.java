@@ -2,8 +2,8 @@ package api;
 
 import model.dashboard.DashboardResponse;
 import model.macros.*;
-import model.weight.WeightEntryRequest;
-import model.weight.WeightUpsertResponse;
+import model.weight.*;
+import model.target.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -62,5 +62,20 @@ public class MacroCoachClient {
             throw new IOException("Failed to upsert weight. Status code: " + response.statusCode());
         }
         return MAPPER.readValue(response.body(), WeightUpsertResponse.class);
+    }
+
+    public static TargetUpsertResponse upsertTarget(String username, TargetEntryRequest entry) throws IOException, InterruptedException {
+        String jsonBody = MAPPER.writeValueAsString(entry);
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_URL + "/targets?username=" + username))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+            .build();
+        HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new IOException("Failed to upsert target. Status code: " + response.statusCode());
+        }
+        return MAPPER.readValue(response.body(), TargetUpsertResponse.class);
     }
 }

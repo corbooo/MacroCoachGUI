@@ -1,16 +1,14 @@
 package ui.dashboard;
 
 import api.MacroCoachClient;
-import model.macros.MacroEntryRequest;
-import model.macros.MacroUpsertResponse;
+import model.target.TargetEntryRequest;
+import model.target.TargetUpsertResponse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 
-public class MacroEntryDialog extends JDialog {
+public class TargetEntryDialog extends JDialog {
 
-    private JTextField dayField;
     private JTextField caloriesField;
     private JTextField proteinField;
     private JTextField carbsField;
@@ -18,35 +16,33 @@ public class MacroEntryDialog extends JDialog {
 
     private final Runnable onSuccess;
 
-    public MacroEntryDialog(String username, Runnable onSuccess) {
-        super((Frame) null, "Add Macro Entry", Dialog.ModalityType.APPLICATION_MODAL);
+    public TargetEntryDialog(String username, Runnable onSuccess) {
+        super((Frame) null, "Set Target", true);
         this.onSuccess = onSuccess;
 
-        setSize(400,300);
+        setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         // title
-        JLabel label = new JLabel("Macro entry for user: " + username);
+        JLabel label = new JLabel("Set the target macros for user: " + username);
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // macro entry fields
+        // target macro fields
         JPanel entryPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        dayField = new JTextField(LocalDate.now().toString(), 15);
         caloriesField = new JTextField(15);
         proteinField = new JTextField(15);
         carbsField = new JTextField(15);
         fatField = new JTextField(15);
 
-        addFormRow(entryPanel, gbc, 0, "Day: ", dayField);
-        addFormRow(entryPanel, gbc, 1, "Calories: ", caloriesField);
-        addFormRow(entryPanel, gbc, 2, "Protein: ", proteinField);
-        addFormRow(entryPanel, gbc, 3, "Carbs: ", carbsField);
-        addFormRow(entryPanel, gbc, 4, "Fat: ", fatField);
+        addFormRow(entryPanel, gbc, 0, "Calories: ", caloriesField);
+        addFormRow(entryPanel, gbc, 1, "Protein: ", proteinField);
+        addFormRow(entryPanel, gbc, 2, "Carbs: ", carbsField);
+        addFormRow(entryPanel, gbc, 3, "Fat: ", fatField);
 
         // bottom buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -82,22 +78,21 @@ public class MacroEntryDialog extends JDialog {
             double carbs = Double.parseDouble(carbsField.getText().trim());
             double fat = Double.parseDouble(fatField.getText().trim());
 
-            MacroEntryRequest entry = new MacroEntryRequest();
-            entry.day = dayField.getText().trim();
-            entry.calories = calories;
-            entry.protein_g = protein;
-            entry.carbs_g = carbs;
-            entry.fat_g = fat;
+            TargetEntryRequest entry = new TargetEntryRequest();
+            entry.calories_target = calories;
+            entry.protein_target_g = protein;
+            entry.carbs_target_g = carbs;
+            entry.fat_target_g = fat;
 
-            MacroUpsertResponse res = MacroCoachClient.upsertMacros(username, entry);
-            
-            JOptionPane.showMessageDialog(this, "Macro entry " + res.action + " successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            TargetUpsertResponse res = MacroCoachClient.upsertTarget(username, entry);
+
+            JOptionPane.showMessageDialog(this, "Target " + res.action + " successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             onSuccess.run();
             dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Failed to save macro entry.", "Save Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to save target.", "Save Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

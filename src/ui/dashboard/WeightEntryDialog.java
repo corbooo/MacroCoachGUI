@@ -67,28 +67,20 @@ public class WeightEntryDialog extends JDialog {
     }
 
     private void handleSave(String username) {
-        String day = dayField.getText().trim();
-        String weightText = weightField.getText().trim();
-
-        if (day.isEmpty() || weightText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Missing Information", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         try {
-            double weight = Double.parseDouble(weightText);
+            double weight = Double.parseDouble(weightField.getText().trim());
 
             WeightEntryRequest entry = new WeightEntryRequest();
-            entry.day = day;
+            entry.day = dayField.getText().trim();
             entry.weight_lbs = weight;
 
-            WeightUpsertResponse result = MacroCoachClient.upsertWeight(username, entry);
+            WeightUpsertResponse res = MacroCoachClient.upsertWeight(username, entry);
 
-            JOptionPane.showMessageDialog(this, "Weight entry " + result.action + " sucessfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Weight entry " + res.action + " successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             onSuccess.run();
             dispose();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Weight must be a valid number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Failed to save weight entry.", "Save Error", JOptionPane.ERROR_MESSAGE);
         }

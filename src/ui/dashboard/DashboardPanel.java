@@ -130,14 +130,6 @@ public class DashboardPanel extends JPanel {
         JPanel actionButtonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         actionButtonsRow.setBackground(BG);
 
-        JButton macroEntryButton = new JButton("Add Macro");
-        macroEntryButton.setBackground(ACCENT);
-        macroEntryButton.setForeground(TEXT);
-        macroEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
-        macroEntryButton.addActionListener(e -> {
-            MacroEntryDialog dialog = new MacroEntryDialog(username, this::refreshDashboard);
-            dialog.setVisible(true);
-        });
         JButton weightEntryButton = new JButton("Add Weight");
         weightEntryButton.setBackground(ACCENT);
         weightEntryButton.setForeground(TEXT);
@@ -146,12 +138,33 @@ public class DashboardPanel extends JPanel {
             WeightEntryDialog dialog = new WeightEntryDialog(username, this::refreshDashboard);
             dialog.setVisible(true);
         });
-        actionButtonsRow.add(macroEntryButton);
-        actionButtonsRow.add(weightEntryButton);
 
+        JButton macroEntryButton = new JButton("Add Macro");
+        macroEntryButton.setBackground(ACCENT);
+        macroEntryButton.setForeground(TEXT);
+        macroEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
+        macroEntryButton.addActionListener(e -> {
+            MacroEntryDialog dialog = new MacroEntryDialog(username, this::refreshDashboard);
+            dialog.setVisible(true);
+        });
+        
+        JButton targetEntryButton = new JButton("Set Target");
+        targetEntryButton.setBackground(ACCENT);
+        targetEntryButton.setForeground(TEXT);
+        targetEntryButton.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 15f));
+        targetEntryButton.addActionListener(e -> {
+            TargetEntryDialog dialog = new TargetEntryDialog(username, this::refreshDashboard);
+            dialog.setVisible(true);
+        });
+
+
+        actionButtonsRow.add(weightEntryButton);
+        actionButtonsRow.add(macroEntryButton);
+        actionButtonsRow.add(targetEntryButton);
+        
         bottomSection.add(dataButtonsRow);
         bottomSection.add(actionButtonsRow);
-
+        
 
         add(topBar, BorderLayout.NORTH);
         add(cardsPanel, BorderLayout.CENTER);
