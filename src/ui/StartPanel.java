@@ -1,9 +1,8 @@
 package ui;
 
-import javax.swing.*;
-
 import api.MacroCoachClient;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class StartPanel extends JPanel {

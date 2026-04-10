@@ -1,6 +1,7 @@
 package api;
 
 import model.dashboard.DashboardResponse;
+import model.history.*;
 import model.macros.*;
 import model.weight.*;
 import model.target.*;
@@ -29,9 +30,33 @@ public class MacroCoachClient {
         if (response.statusCode() == 404) {
             throw new IOException("Failed to load dashboard. There is no user: " + username);
         }
+        return MAPPER.readValue(response.body(), DashboardResponse.class);
+    }
 
-        String json = response.body();
-        return MAPPER.readValue(json, DashboardResponse.class);
+    public static WeightHistoryResponse getWeightHistory(String username) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_URL + "/weights?username=" + username))
+            .GET()
+            .build();
+        HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new IOException("Failed to fetch weight history. Status Code: " + response.statusCode());
+        }
+        return MAPPER.readValue(response.body(), WeightHistoryResponse.class);
+    }
+
+    public static MacroHistoryResponse getMacroHistory(String username) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_URL + "/macros?username=" + username))
+            .GET()
+            .build();
+        HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new IOException("Failed to fetch macro history. Status Code: " + response.statusCode());
+        }
+        return MAPPER.readValue(response.body(), MacroHistoryResponse.class);
     }
 
     public static MacroUpsertResponse upsertMacros(String username, MacroEntryRequest entry) throws IOException, InterruptedException {

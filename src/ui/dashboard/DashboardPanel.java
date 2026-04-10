@@ -1,8 +1,8 @@
 package ui.dashboard;
 
+import ui.Navigator;
 import api.MacroCoachClient;
 import model.dashboard.DashboardResponse;
-import ui.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,7 @@ public class DashboardPanel extends JPanel {
 
     private static final Color BG = new Color(30, 30, 30);
     private static final Color ACCENT = new Color(0, 255, 255);
+    private static final Color ACCENT_DARK = new Color(0, 225, 225);
     private static final Color TEXT = Color.WHITE;
 
     private final String username;
@@ -47,7 +48,7 @@ public class DashboardPanel extends JPanel {
         
         String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
 
-        // - Top Name Bar - 
+        // - Top Bar - 
         JPanel topBar = new JPanel(new BorderLayout(20,0));
         topBar.setBackground(BG);
         topBar.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
@@ -120,8 +121,13 @@ public class DashboardPanel extends JPanel {
         insightsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Insights feature coming soon."));
         JButton chartsButton = new JButton("Charts");
         chartsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Charts feature coming soon."));
+
         JButton historyButton = new JButton("History");
-        historyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "History feature coming soon."));
+        historyButton.setBackground(ACCENT_DARK);
+        historyButton.setForeground(TEXT);
+        historyButton.setFont(titleLabel.getFont().deriveFont(Font.ITALIC, 20f));
+        historyButton.addActionListener(e -> navigator.showHistory(username));
+
         dataButtonsRow.add(insightsButton);
         dataButtonsRow.add(chartsButton);
         dataButtonsRow.add(historyButton);
