@@ -8,9 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
 import java.awt.*;
-import java.util.List;
 
 public class HistoryPanel extends JPanel {
     
