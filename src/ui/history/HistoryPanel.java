@@ -83,7 +83,7 @@ public class HistoryPanel extends JPanel {
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
         try {
-            WeightHistoryResponse response = MacroCoachClient.getWeightHistory(username);
+            WeightHistoryResponse response = MacroCoachClient.getWeightHistory(username, 100);
 
             if (response.weights == null || response.weights.isEmpty()) {
                 listModel.addElement("No weight entries found.");
@@ -129,7 +129,7 @@ public class HistoryPanel extends JPanel {
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
         try {
-            MacroHistoryResponse response = MacroCoachClient.getMacroHistory(username);
+            MacroHistoryResponse response = MacroCoachClient.getMacroHistory(username, 100);
 
             if (response.macros == null || response.macros.isEmpty()) {
                 listModel.addElement("No weight entries found.");

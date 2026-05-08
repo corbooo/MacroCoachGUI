@@ -1,5 +1,6 @@
 package ui;
 
+import ui.charts.ChartsPanel;
 import ui.dashboard.DashboardPanel;
 import ui.history.HistoryPanel;
 
@@ -32,6 +33,13 @@ public class AppFrame extends JFrame implements Navigator {
     public void showDashboard(String username) {
         getContentPane().removeAll();
         add(new DashboardPanel(username, this), BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    public void showCharts(String username) {
+        getContentPane().removeAll();
+        add(new ChartsPanel(username, this), BorderLayout.CENTER);
         revalidate();
         repaint();
     }

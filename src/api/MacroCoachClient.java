@@ -33,9 +33,9 @@ public class MacroCoachClient {
         return MAPPER.readValue(response.body(), DashboardResponse.class);
     }
 
-    public static WeightHistoryResponse getWeightHistory(String username) throws IOException, InterruptedException {
+    public static WeightHistoryResponse getWeightHistory(String username, int limit) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(BASE_URL + "/weights?username=" + username))
+            .uri(URI.create(BASE_URL + "/weights?username=" + username + "&limit=" + limit))
             .GET()
             .build();
         HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
@@ -46,9 +46,9 @@ public class MacroCoachClient {
         return MAPPER.readValue(response.body(), WeightHistoryResponse.class);
     }
 
-    public static MacroHistoryResponse getMacroHistory(String username) throws IOException, InterruptedException {
+    public static MacroHistoryResponse getMacroHistory(String username, int limit) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(BASE_URL + "/macros?username=" + username))
+            .uri(URI.create(BASE_URL + "/macros?username=" + username + "&limit=" + limit))
             .GET()
             .build();
         HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());

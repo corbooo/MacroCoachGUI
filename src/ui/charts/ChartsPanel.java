@@ -3,9 +3,12 @@ package ui.charts;
 import ui.Navigator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
+
+import org.jfree.chart.*;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ChartsPanel extends JPanel {
 
@@ -43,6 +46,8 @@ public class ChartsPanel extends JPanel {
         userLabel.setForeground(ACCENT);
         userLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
 
+        backButton.setBackground(ACCENT);
+        backButton.setForeground(TEXT);
         backButton.addActionListener(e -> navigator.showDashboard(username));
 
         topBar.add(backButton, BorderLayout.WEST);
@@ -63,6 +68,24 @@ public class ChartsPanel extends JPanel {
 
     }
 
+    private ChartPanel createTestChart(String title) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(140.2, "Weight", "May 1");
+        dataset.addValue(141.0, "Weight", "May 2");
+        dataset.addValue(140.7, "Weight", "May 3");
+        dataset.addValue(141.4, "Weight", "May 4");
+
+        JFreeChart chart = ChartFactory.createLineChart(title, "Date", "Weight (lbs)", dataset);
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+
+        rangeAxis.setRange(139.0, 142.5);
+
+        return new ChartPanel(chart);
+    }
+
     private JPanel createChartCard(String title) {
         JPanel card = new JPanel(new BorderLayout());
         card.setBackground(CARD_BG);
@@ -71,10 +94,6 @@ public class ChartsPanel extends JPanel {
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
         titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-
-        JLabel placeholder = new JLabel("Chart will go here", SwingConstants.CENTER);
-        placeholder.setForeground(TEXT);
-        placeholder.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         String[] limitOptions = {"7", "14", "30", "60", "90", "180", "365", "1000"};
         JComboBox<String> limitDropdown = new JComboBox<>(limitOptions);
@@ -86,7 +105,7 @@ public class ChartsPanel extends JPanel {
         bottomPanel.add(limitDropdown);
 
         card.add(titleLabel, BorderLayout.NORTH);
-        card.add(placeholder, BorderLayout.CENTER);
+        card.add(createTestChart(title), BorderLayout.CENTER);
         card.add(bottomPanel, BorderLayout.SOUTH);
 
         return card;

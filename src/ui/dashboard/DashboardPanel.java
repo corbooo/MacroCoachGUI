@@ -116,11 +116,15 @@ public class DashboardPanel extends JPanel {
         JPanel dataButtonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         dataButtonsRow.setBackground(BG);
 
-        // placeholder buttons for now
+        // placeholder button for now
         JButton insightsButton = new JButton("Insights");
         insightsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Insights feature coming soon."));
+
         JButton chartsButton = new JButton("Charts");
-        chartsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Charts feature coming soon."));
+        chartsButton.setBackground(ACCENT_DARK);
+        chartsButton.setForeground(TEXT);
+        chartsButton.setFont(titleLabel.getFont().deriveFont(Font.ITALIC, 20f));
+        chartsButton.addActionListener(e -> navigator.showCharts(username));
 
         JButton historyButton = new JButton("History");
         historyButton.setBackground(ACCENT_DARK);
